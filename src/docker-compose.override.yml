@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  pokemondb:
+    container_name: pokemondb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=PokemonDb
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_catalog:/var/lib/postgresql/MAJOR/docker
+  
