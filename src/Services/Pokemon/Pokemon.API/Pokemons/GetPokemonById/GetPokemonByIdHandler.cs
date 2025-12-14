@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.CQRS;
+using BuildingBlocks.Exceptions;
 using Marten;
 
 namespace Pokemon.API.Pokemons.GetPokemonById
@@ -15,7 +16,7 @@ namespace Pokemon.API.Pokemons.GetPokemonById
 
             if (pokemon is null)
             {
-                throw new Exception($"Pokemon with id:{query.Id} not found");
+                throw new NotFoundException("Pokemon", query.Id);
             }
 
             return new GetPokemonByIdResult(pokemon);

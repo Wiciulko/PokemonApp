@@ -1,4 +1,5 @@
 ﻿using BuildingBlocks.CQRS;
+using BuildingBlocks.Exceptions;
 using FluentValidation;
 using Marten;
 using Pokemon.API.Models;
@@ -29,7 +30,7 @@ namespace Pokemon.API.Pokemons.UpdatePokemon
 
             if (pokemon is null)
             {
-                throw new Exception($"Pokemon with id:{command.Id} not found");
+                throw new NotFoundException("Pokemon", command.Id);
             }
 
             pokemon.Name = command.Name;
