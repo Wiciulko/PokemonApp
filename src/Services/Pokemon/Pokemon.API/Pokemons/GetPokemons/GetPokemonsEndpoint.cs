@@ -4,15 +4,17 @@ using MediatR;
 
 namespace Pokemon.API.Pokemons.GetPokemons
 {
+    public record GetPokemonsRequest(int? PageNumber = 1, int? PageSize = 20);
     public record GetPokemonsResponse(IEnumerable<Models.Pokemon> Pokemons);
 
     internal class GetPokemonsEndpoint : ICarterModule
     {
         public void AddRoutes(IEndpointRouteBuilder app)
         {
-            app.MapGet("/pokemons", async (ISender sender) =>
+            app.MapGet("/pokemons", async ([AsParameters]GetPokemonsRequest request, ISender sender) =>
             {
-                var result = await sender.Send(new GetPokemonsQuery());
+                var query = request.Adapt<GetPokemonsQuery>();
+                var result = await sender.Send(query);
                 var response = result.Adapt<GetPokemonsResponse>();
 
                 return Results.Ok(response);
