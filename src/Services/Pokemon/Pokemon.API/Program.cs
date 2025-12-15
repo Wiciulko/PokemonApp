@@ -5,6 +5,7 @@ using FluentValidation;
 using Marten;
 using Pokemon.API.Attacks.CreateAttack;
 using Pokemon.API.Attacks.GetAttacks;
+using Pokemon.API.Data;
 using Pokemon.API.Pokemons.CreatePokemon;
 using Pokemon.API.Pokemons.DeletePokemon;
 using Pokemon.API.Pokemons.GetPokemonByAttackId;
@@ -37,6 +38,12 @@ builder.Services.AddMarten(options =>
 {
     options.Connection(builder.Configuration.GetConnectionString("Database")!);
 }).UseLightweightSessions();
+
+if (builder.Environment.IsDevelopment())
+{
+    builder.Services.InitializeMartenWith<PokemonInitialData>();
+}
+
 builder.Services.AddExceptionHandler<CustomExceptionHandler>();
 
 var app = builder.Build();
